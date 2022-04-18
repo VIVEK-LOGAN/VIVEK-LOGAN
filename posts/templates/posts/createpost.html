@@ -1,0 +1,109 @@
+{% extends 'posts/base.html' %}
+{% block content %}
+    {% load static %}
+    <br><br><br>
+    <style>
+
+    </style>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="login">
+            <div class="form">
+                <form class="login-form">
+                    <img src="{% static 'images/prowerse.png' %}" width="50%;" style="margin-bottom: 5%;">
+                    {% if error %}
+                        <p style="margin-bottom: 15%; font-size: 10px;">Please Login First...</p>
+                       <button> <a href="{% url 'login' %}" style="color: #dbdbdb;">Login</a></button>
+                    {% else %}
+                        <p style="margin-bottom: 15%; font-size: 10px;">LOGEDIN As: <strong
+                                style="font-size: 17px; color: #182848;">{{ user.username }}</strong></p>
+                        <input type="text" placeholder="Product Name" name="productname" required/>
+                        <input type="text" placeholder="Product Description" name="productdescription" required/>
+                        <input type="text" placeholder="Product Type" name="producttype" required/>
+                        <div class="custom-file" style="margin-bottom: 10%;">
+                            <input type="file" class="custom-file-input" id="validatedCustomFile" name="productimage"
+                                   required>
+                            <label class="custom-file-label" for="validatedCustomFile" style="margin-bottom: 1%;">Choose
+                                file...</label>
+                            <div class="invalid-feedback">Example invalid custom file feedback</div>
+                        </div>
+                        <button>CREATE PRODUCT</button>
+                    {% endif %}
+                </form>
+            </div>
+        </div>
+    </form>
+
+
+
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Comfortaa&display=swap');
+
+        body {
+            background: linear-gradient(90deg, #4b6cb7 0%, #182848 100%);
+        }
+
+        .login {
+            width: 360px;
+            padding: 8% 0 0;
+            margin: auto;
+            font-family: 'Comfortaa', cursive;
+        }
+
+        .form {
+            position: relative;
+            z-index: 1;
+            background: #FFFFFF;
+            border-radius: 10px;
+            max-width: 360px;
+            margin: 0 auto 100px;
+            padding: 45px;
+            text-align: center;
+        }
+
+        .form input {
+            outline: 0;
+            background: #f2f2f2;
+            width: 100%;
+            border: 0;
+            border-radius: 5px;
+            margin: 0 0 15px;
+            padding: 15px;
+            box-sizing: border-box;
+            font-size: 14px;
+            font-family: 'Comfortaa', cursive;
+        }
+
+        .form input:focus {
+            background: #dbdbdb;
+        }
+
+        .form button {
+            font-family: 'Comfortaa', cursive;
+            text-transform: uppercase;
+            outline: 0;
+            background: #4b6cb7;
+            width: 100%;
+            border: 0;
+            border-radius: 5px;
+            padding: 15px;
+            color: #FFFFFF;
+            font-size: 14px;
+            -webkit-transition: all 0.3 ease;
+            transition: all 0.3 ease;
+            cursor: pointer;
+        }
+
+        .form button:active {
+            background: #395591;
+        }
+
+        .form span {
+            font-size: 75px;
+            color: #4b6cb7;
+        }
+    </style>
+
+
+{% endblock %}

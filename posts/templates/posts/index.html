@@ -1,0 +1,36 @@
+{% extends 'posts/base.html' %}
+{% block content %}
+    {% load static %}
+    <br><br><br>
+    <div class="feeds">
+        {% for result in results %}
+            <h3>{{ result.title }}</h3>
+            <br>
+            Name:{{ result.author }}
+            <br>
+            <p id="{{ result.id }}">
+                {{ result.body }}
+            </p>
+            <hr>
+        {% endfor %}
+
+
+        <div class="container">
+            <div class="row">
+                {% for i in productobj %}
+                    <div class="col-sm" style="margin-bottom: 20px;">
+                        <div class="card" style="width: 18rem;">
+                            <img class="card-img-top" src="{{ i.ProductImage.url }}" alt="Card image cap">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ i.split_title }}</h5>
+                                <p class="card-text">{{ i.split_desc }}</p>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+
+    </div>
+{% endblock %}

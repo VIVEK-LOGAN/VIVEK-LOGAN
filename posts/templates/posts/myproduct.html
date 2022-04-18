@@ -1,0 +1,36 @@
+{% extends 'posts/base.html' %}
+{% block content %}
+    {% load static %}
+    <br><br><br>
+
+    <div class="container">
+        {% if objproduct %}
+
+            <div class="container">
+                <div class="row">
+                    {% for i in objproduct %}
+                        <div class="col-sm" style="margin-bottom: 20px;">
+                            <div class="card" style="width: 18rem;">
+                                <img class="card-img-top" src="{{ i.ProductImage.url }}" alt="Card image cap">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ i.split_title }}</h5>
+                                    <p class="card-text">{{ i.split_desc }}</p>
+                                    <a href="{% url 'updateproduct' i.id %}" class="btn btn-primary">UPDATE</a>
+                                    <a href="{% url 'deleteproduct' i.id %}" class="btn btn-danger">DELETE</a>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+
+
+        {% else %}
+            You dont have any product
+        {% endif %}
+
+    </div>
+
+
+{% endblock %}
