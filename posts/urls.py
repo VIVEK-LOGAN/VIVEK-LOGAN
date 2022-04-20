@@ -17,8 +17,7 @@ urlpatterns = [
     path(r'myproduct', views.MyProductView, name='myproduct'),
     path(r'updateproduct/<id>', views.updateproduct, name='updateproduct'),
     path(r'deleteproduct/<did>', views.deleteproduct, name='deleteproduct'),
-    path(r'async', views.Async, name='async'),
-    path(r'upload', views.Upload, name='upload'),
-    path(r'^uploadfile', include(ajax_router.urls)),
-
+    #path(r'async', views.Async, name='async'),
+    #path(r'upload', views.Upload, name='upload'),
+    #path(r'^uploadfile', include(ajax_router.urls)),
 ]

@@ -15,7 +15,14 @@ from django.http import JsonResponse
 import os
 from django.views.decorators.csrf import ensure_csrf_cookie
 import csv
-
+from django.views.decorators.csrf import csrf_exempt
+import json
+from base64 import b64decode
+from urllib import request
+import datetime
+import numpy
+from django.core.files import File
+from pathlib import Path
 
 def index(request):
     template = 'posts/index.html'
@@ -46,9 +53,42 @@ def base_layout(request):
     }
     return render(request, template, context=content)
 
-
+@csrf_exempt
 def createpost(request):
-    if request.user.is_authenticated:
+    context = {}
+    if request.method == 'POST':
+        print('post method is heeeereeeeeee.......')
+        print(list(request.POST))
+        body_unicode = request.body.decode('utf-8')
+        body = json.loads(body_unicode)
+        id = body.get('id', None)
+        productname = body.get('productname', None)
+        productdescription = body.get('productdescription', None)
+        producttype = body.get('producttype', None)
+        data = body.get('data', None)
+
+        #open file
+        data_uri = data
+        header, encoded = data_uri.split(",", 1)
+        data = b64decode(encoded)
+        date = datetime.datetime.now()
+        date = str(date).replace('-', '').replace(":", '').replace(' ', '').replace('.', '')
+        pathdir = f"media/ProductImages/{productname}{date}.png"
+        with open(pathdir, "wb") as f:
+            f.write(data)
+            print('file created')
+            f.close()
+        path = Path(pathdir)
+        with path.open(mode='rb') as f:
+            ProductModelOBJ = ProductsModel.objects.create(
+                User=UsersModel.objects.get(User__username=request.user.username),
+                ProductImage=File(f, name=path.name), ProductName=productname,
+                ProductType=producttype,
+                ProductDescription=productdescription)
+            f.close()
+        os.remove(pathdir)
+        print(id, producttype, productname, productdescription,)
+    '''if request.user.is_authenticated:
         error = ''
         if request.method == 'POST':
             productname = request.POST.get('productname')
@@ -67,7 +107,7 @@ def createpost(request):
     context = {
         'user': request.user,
         'error': error
-    }
+    }'''
     return render(request, 'posts/createpost.html', context=context)
 
 
@@ -163,7 +203,7 @@ def deleteproduct(request, did):
 
 # ------------------------async-------------
 
-# loading function
+'''# loading function
 async def function_asyc():
     print('DATA STILL LOADING...')
     for i in range(5):
@@ -172,17 +212,17 @@ async def function_asyc():
     print('DATA IS SUCCESSFULLY LOADED...')
     msg = 'DATA IS SUCCESSFULLY LOADED...'
     print(msg)
-    return JsonResponse({'message': msg})
+    return JsonResponse({'message': msg})'''
 
 
-# second function which run before first
+'''# second function which run before first
 async def function_2(request):
     msg = 'FUNCTION WHICH RUN NO MATTER WHAT!...'
     print(msg)
     return JsonResponse({'message': msg})
+'''
 
-
-def Async(request):
+'''def Async(request):
     if request.method == 'POST':
         async def main():
             f1 = loop.create_task(function_asyc())
@@ -198,10 +238,10 @@ def Async(request):
             'message': msg
         }
         return render(request, 'posts/async.html', context=context)
-    return render(request, 'posts/async.html')
+    return render(request, 'posts/async.html')'''
 
 
-def Upload(request):
+'''def Upload(request):
     if request.method == "GET":
         return render(request, 'posts/upload.html')
     if request.method == 'POST':
@@ -215,9 +255,9 @@ def Upload(request):
 
         return JsonResponse({'msg': '<span style="color: green;">File successfully uploaded</span>'})
     else:
-        return render(request, 'posts/upload.html', )
+        return render(request, 'posts/upload.html', )'''
 
-def handle_uploaded_file(f):
+'''def handle_uploaded_file(f):
     with open(f.name, 'wb+') as destination:
         for chunk in f.chunks():
-            destination.write(chunk)
+            destination.write(chunk)'''

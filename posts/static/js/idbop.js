@@ -1,3 +1,6 @@
+/*
+
+
 var dbPromise = idb.open('feeds-db', 5, function(upgradeDb) {
 	upgradeDb.createObjectStore('feeds',{keyPath:'pk'});
 });
@@ -48,3 +51,6 @@ var dbPromise = idb.open('feeds-db', 5, function(upgradeDb) {
 		    }
 		  return cursor.continue().then(logItems);
 		});
+
+
+		*/
